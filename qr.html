@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #282c35;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #61dafb;
+      margin-bottom: 20px;
+    }
+
+    h5 {
+        color: chocolate;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 15px 20px;
+      background-color: #61dafb;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #4fa3d1;
+    }
+
+    #qrcode {
+      margin-top: 20px;
+    }
+
+    #downloadButton {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js"></script>
+</head>
+<body>
+
+<div>
+    <h1><center>QR Code Generator</center></h1>
+    <h5><center>by Fadhil Pratama</center></h5>
+    
+    <label for="textInput">Masukkan Alamat URL :</label>
+    <input type="text" id="textInput" placeholder="Ketikkan Disini">
+     <button onclick="generateQRCode()">Buat QR Code</button>    
+  <button id="downloadButton" onclick="downloadQRCode()">Download</button>
+
+  <div id="qrcode"></div>
+</div>
+
+<script>
+  function generateQRCode() {
+    const textInput = document.getElementById('textInput').value;
+    document.getElementById('qrcode').innerHTML = '';
+    const canvas = document.createElement('canvas');
+    document.getElementById('qrcode').appendChild(canvas);
+
+    const qr = new QRious({
+      element: canvas,
+      value: textInput,
+      size: 300,
+    });
+
+    // Tampilkan tombol download setelah QR code dibuat
+    document.getElementById('downloadButton').style.display = 'inline-block';
+  }
+
+  function downloadQRCode() {
+    const canvas = document.querySelector('canvas');
+    const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'qrcode.png';
+    link.click();
+  }
+</script>
+
+</body>
+</html>
